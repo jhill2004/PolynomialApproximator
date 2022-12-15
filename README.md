@@ -12,3 +12,5 @@ What I learned:
 - Using MathPlotLib
 - Using SciPy
 - Industry standards (such as including requirements.txt)
+- Interpolation
+- Splines
