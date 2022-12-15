@@ -1,3 +1,4 @@
+
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy import exp
@@ -9,13 +10,13 @@ from scipy.optimize import curve_fit
 def getXCoordList(coordList):
     xlist = []
     for item in coordList:
-        xlist.append(item[0])
+        xlist.append(float(item[0]))
     return xlist
 
 def getYCoordList(coordList):
     ylist = []
     for item in coordList:
-        ylist.append(item[1])
+        ylist.append(float(item[1]))
     return ylist
 
 def optfunc(x,a,b,c,d,e,f):
@@ -51,11 +52,29 @@ else:
         y = input("Y coordinate: ")
         if (x != "stop" and y != "stop"):
             coordlist.append([float(x),float(y)])
-    popt, pcov = curve_fit(optfunc, getXCoordList(coordlist), getYCoordList(coordlist))
+    
     xCoordList = getXCoordList(coordlist)
-    print(popt)
-    print(getYCoordList(coordlist))
-    startPoint = xCoordList[0]
+    yCoordList = getYCoordList(coordlist)
+    popt, pcov = curve_fit(optfunc, xCoordList, yCoordList)
+ 
+
+
+
+    x = np.array(xCoordList)
+    y = np.array(yCoordList)
+    x_interp = np.linspace(min(x), max(x), 100, endpoint = True)
+    y_interp = optfunc(x_interp,*popt)
+
+    
+    
+    
+    plt.plot(getXCoordList(coordlist),getYCoordList(coordlist))
+    plt.plot(x_interp, y_interp,'g--')
+  
+    plt.show()
+
+    ''' old code
+        startPoint = xCoordList[0]
     endPoint = xCoordList[0]
     for key in xCoordList:
         if key > endPoint:
@@ -64,16 +83,8 @@ else:
             startPoint = key
     
     domain = np.linspace(startPoint,endPoint,int((endPoint-startPoint)*10), endpoint = True)
-
-    
-    
-    
-    #plt.plot(getXCoordList(coordlist),getYCoordList(coordlist))
-    plt.plot(domain,optfunc(domain,*popt))
-    plt.xlabel("X axis")
-    plt.ylabel("Y axis")
-    plt.title("Approximator")
-    plt.show()
+    plt.plot(domain, optfunc(domain, *popt))
+    '''
     
     
     
